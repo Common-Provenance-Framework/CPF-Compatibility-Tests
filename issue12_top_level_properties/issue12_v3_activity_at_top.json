@@ -1,0 +1,1 @@
+{"prefix":{"ex":"https://www.example.com/","prov":"http://www.w3.org/ns/prov#"},"activity":{"ex:topAct":{"prov:startTime":"2024-06-15T09:00:00+02:00"}},"bundle":{"ex:bundleA":{"entity":{"ex:e1":{"ex:name":["Inside bundle"]}}}}}

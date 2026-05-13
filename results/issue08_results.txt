@@ -1,0 +1,50 @@
+ISSUE #8: "blank" Namespace with #
+Date: 2026-05-04
+
+Jan's meeting comment: "What about blank(Python) and underscore(Java)?
+Replace 'blank' with '_'? What needs to be URI? Namespace needs to be unique?"
+
+===========================================================================
+COMPLETE CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                              | W3C    | Java   | Java   | Python | Python Round-trip
+   |                                          | Schema | Schema | API    | Deser  |
+---|------------------------------------------|--------|--------|--------|--------|------------------
+V1 | "blank" ending with #                    | PASS   | PASS   | FAIL*  | PASS   | blank=...blank#  (preserved)
+V2 | "blank" ending with / (workaround)       | PASS   | PASS   | FAIL*  | PASS   | blank=...blank/  (preserved)
+V3 | No "blank" prefix, only "ex"             | PASS   | PASS   | FAIL*  | PASS   | blank=not present
+V4 | Using _: blank nodes for entities        | PASS   | PASS   | FAIL*  | FAIL   | Error: identifier missing
+
+* All Java API failures are Issue #1 (namespace root), NOT specific to blank/#
+
+===========================================================================
+FINDINGS
+===========================================================================
+
+1. SCHEMAS: Both W3C and Java schemas accept all 4 variants, including # ending.
+   The schema does not restrict URI endings.
+
+2. PYTHON:
+   - V1 (hash): PASS, preserves # in output
+   - V2 (slash): PASS, preserves / in output
+   - V3 (no blank): PASS
+   - V4 (_: blank nodes for entities): FAIL -- ProvPython requires entities
+     to have proper identifiers, not _: blank node IDs
+
+3. JAVA (ProvToolbox): Cannot test in isolation due to Issue #1.
+   Julia's documented issue says ProvToolbox fails on "blank" with #.
+   This needs re-verification once Issue #1 is resolved.
+
+4. V4 FINDING (using _: for entities):
+   Python rejects _: as an entity identifier. The spec says blank nodes
+   are for relations (where IDs are optional), not for entities.
+   This means "blank:" prefix (namespace) and "_:" (blank nodes) are NOT
+   interchangeable -- they serve different purposes.
+
+5. ANSWERING JAN'S QUESTIONS:
+   - "Replace blank with _?" -- NO, they are different concepts.
+     "blank:" is a namespace prefix, "_:" is for anonymous blank nodes.
+     Using _: for entities causes Python to fail (V4).
+   - "Namespace needs to be unique?" -- Not tested yet.
+     TODO: create test with two prefixes pointing to same URI.

@@ -1,0 +1,51 @@
+ISSUE #4: Default Namespace Key
+Date: 2026-05-04
+
+Spec: "prefix": {"default": "http://..."}
+ProvToolbox: uses "defaultNamespace" as separate top-level key
+
+===========================================================================
+COMPLETE CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                              | W3C    | Java   | Java   | Python | Python Round-trip
+   |                                          | Schema | Schema | API    | Deser  |
+---|------------------------------------------|--------|--------|--------|--------|------------------
+V1 | "default" in prefix (spec format)        | PASS   | PASS   | FAIL*  | PASS   | default=yes, defaultNamespace=NO
+V2 | "defaultNamespace" top-level key         | FAIL   | FAIL   | FAIL   | FAIL   | n/a
+V3 | Both "default" AND "defaultNamespace"    | FAIL   | FAIL   | FAIL   | FAIL   | n/a
+V4 | "default" in prefix, unprefixed names    | PASS   | PASS   | FAIL*  | PASS   | default=yes, defaultNamespace=NO
+V5 | No default at all, all explicit          | PASS   | PASS   | FAIL*  | PASS   | No default in output
+
+* Java API V1, V4, V5 fail due to Issue #1 (namespace resolution), not Issue #4
+
+===========================================================================
+FINDINGS
+===========================================================================
+
+1. "defaultNamespace" IS NOT VALID PROV-JSON:
+   - W3C schema REJECTS it (V2, V3 both FAIL)
+   - Java schema REJECTS it (V2, V3 both FAIL)
+   - Python REJECTS it (V2, V3 both FAIL)
+   - ALL three systems agree: "defaultNamespace" as a top-level key is invalid
+
+2. "default" inside prefix IS VALID:
+   - W3C schema, Java schema, Python all accept it (V1, V4 PASS)
+   - Python preserves "default" in round-trip output
+   - Jan's schema test document (IsProvBase64JsonValidatorTest) uses "default"
+     inside prefix -- confirming this is the correct format for Java CPF-Store
+
+3. "defaultNamespace" ONLY APPEARS IN PROVTOOLBOX INTERNALS:
+   - ProvToolbox uses "defaultNamespace" in its internal serialization
+   - But the CPF-Store schema and preprocessing handle the conversion
+   - Users never need to send "defaultNamespace" -- it's an internal detail
+
+4. UNPREFIXED NAMES WITH DEFAULT PREFIX (V4):
+   - Entity "myEntity" and attribute "name" (no prefix) resolve via "default"
+   - Python handles this correctly
+   - Java API blocked by Issue #1, cannot verify ProvToolbox behavior
+
+5. THIS ISSUE IS LESS SEVERE THAN ORIGINALLY ASSESSED:
+   - The "defaultNamespace" format is internal to ProvToolbox
+   - Jan's schema correctly uses "default" inside prefix
+   - The only concern is ProvToolbox's output format, which postprocessing handles

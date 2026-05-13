@@ -1,0 +1,94 @@
+ISSUE #3: Bundle @id Property
+Date: 2026-05-04
+
+Jan's meeting comment: "Biggest problem is 3, don't know how it can be fixed"
+
+Jan's code handles it:
+- preprocessJsonForDeserialization: ADDS @id before ProvToolbox reads (line 72)
+- postprocessJsonAfterSerialization: REMOVES @id after ProvToolbox writes (line 115)
+- Java schema: REJECTS @id (not in allowed properties)
+
+===========================================================================
+COMPLETE CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                           | W3C    | Java   | Java   | Python | Python Round-trip
+   |                                       | Schema | Schema | API    | Deser  |
+---|---------------------------------------|--------|--------|--------|--------|------------------
+V1 | No @id (spec format)                  | PASS   | PASS   | FAIL*  | PASS   | @id=NO
+V2 | @id present, correct value            | PASS   | FAIL   | FAIL   | FAIL   | n/a
+V3 | @id present, WRONG value              | PASS   | FAIL   | FAIL   | FAIL   | n/a
+V4 | Top-level prefix, no @id              | PASS   | FAIL   | FAIL   | PASS   | @id=NO
+V5 | Two bundles, no @id                   | PASS   | FAIL   | FAIL   | PASS   | @id=NO, 2 bundles
+
+* V1 Java API: passes schema, fails at ProvToolbox (Issue #1 namespace problem)
+
+===========================================================================
+FINDINGS
+===========================================================================
+
+1. SCHEMA BEHAVIOR:
+   - W3C schema: allows @id (PASS on V2, V3). Permissive.
+   - Java schema: REJECTS @id. This is correct -- @id is added by preprocessing
+     AFTER schema validation, and removed AFTER serialization. The user should
+     never see or send @id.
+
+2. PYTHON BEHAVIOR:
+   - Python REJECTS @id (V2, V3 both FAIL). ProvPython does not understand @id
+     inside bundles.
+   - Python NEVER outputs @id on round-trip. Bundle ID comes from the key name.
+   - This matches the spec.
+
+3. JAVA BEHAVIOR:
+   - V1 (no @id, spec format): passes schema, but fails API due to Issue #1
+   - V2, V3 (@id present): schema rejects @id. The preprocessing adds it
+     internally -- users must not include it.
+   - The @id is an INTERNAL implementation detail of ProvToolbox, hidden by
+     the pre/post processing layer.
+
+4. TWO BUNDLES (V5):
+   - W3C schema: allows multiple bundles (PASS)
+   - Java schema: rejects (maxProperties: 1) -- intentional CPF-Store restriction
+   - Python: handles multiple bundles fine (PASS, outputs both)
+
+5. WRONG @id (V3):
+   - Both Java schema and Python reject it.
+   - W3C schema allows it (doesn't validate @id content).
+   - If ProvToolbox received a wrong @id, it would use that as the bundle name
+     instead of the key name. This would be a data integrity issue.
+
+===========================================================================
+WHY JAN SAYS "BIGGEST PROBLEM"
+===========================================================================
+
+The @id requirement is deeply embedded in ProvToolbox's deserializer
+(CustomQualifiedNameDeserializer). Without @id, ProvToolbox cannot determine
+the bundle's qualified name during deserialization.
+
+The current workaround (add before deser, remove after ser) works but:
+- It's fragile (what if @id gets out of sync with key name?)
+- It's non-standard (spec doesn't have @id)
+- It creates a Java-Python incompatibility (Python rejects @id)
+- It means the same document can't be passed directly between Java and Python
+  without transformation
+
+This would need to be fixed upstream in ProvToolbox to truly resolve.
+
+===========================================================================
+QUESTION FOR PROVTOOLBOX MAINTAINERS
+===========================================================================
+
+The ProvToolbox JSON deserializer requires an "@id" property inside bundle
+objects to determine the bundle's qualified name. The PROV-JSON spec defines
+the bundle name from the JSON key, not from an internal property. Can the
+deserializer be updated to read the bundle name from the key instead?
+
+===========================================================================
+TEST FILES
+===========================================================================
+
+issue03_v1_no_id.json              -- spec format, no @id
+issue03_v2_id_correct.json         -- @id matching key name
+issue03_v3_id_wrong.json           -- @id NOT matching key name
+issue03_v4_top_level_prefix_no_id.json -- top-level prefix, no @id
+issue03_v5_two_bundles_no_id.json  -- two bundles (Java only allows 1)

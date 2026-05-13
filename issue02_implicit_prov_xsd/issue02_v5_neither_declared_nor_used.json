@@ -1,0 +1,15 @@
+{
+  "bundle": {
+    "ex:TestBundle_i02v5": {
+      "prefix": {
+        "ex": "https://www.example.com/"
+      },
+      "entity": {
+        "ex:sample5": {
+          "ex:name": ["Just a plain string"],
+          "ex:count": ["7"]
+        }
+      }
+    }
+  }
+}

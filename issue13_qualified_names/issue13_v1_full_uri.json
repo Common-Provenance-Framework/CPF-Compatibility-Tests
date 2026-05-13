@@ -1,0 +1,1 @@
+{"bundle":{"ex:bundleA":{"prefix":{"ex":"https://www.example.com/","prov":"http://www.w3.org/ns/prov#","xsd":"http://www.w3.org/2001/XMLSchema#"},"entity":{"https://www.example.com/fullUriEntity":{"ex:name":["Full URI as identifier"]}},"wasGeneratedBy":{"_:g1":{"prov:entity":"https://www.example.com/fullUriEntity","prov:activity":"ex:a1"}}}}}

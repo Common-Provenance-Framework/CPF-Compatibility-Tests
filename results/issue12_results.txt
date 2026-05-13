@@ -1,0 +1,24 @@
+ISSUE #12: Top-Level Properties
+Date: 2026-05-04
+
+Jan's meeting comment: "Something wrong... can have entities outside bundle in ProvToolBox.
+CPF-Store has restriction that everything has to be inside the bundle, not ProvToolBox problem."
+
+===========================================================================
+CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                    | W3C    | Java   | Java   | Python
+   |                                | Schema | Schema | API    | Deser
+---|--------------------------------|--------|--------|--------|-------
+V1 | Only bundle                   | PASS   | PASS   | FAIL*  | PASS
+V2 | Entity at top level           | PASS   | FAIL   | FAIL   | PASS
+V3 | Activity at top level         | PASS   | FAIL   | FAIL   | PASS
+V4 | Relation at top level         | PASS   | FAIL   | FAIL   | PASS
+
+* V1 Java API blocked by Issue #1
+
+FINDINGS:
+- W3C spec and Python accept entities/activities/relations at top level
+- Java schema rejects them -- this is an INTENTIONAL CPF-Store restriction, not a ProvToolbox limitation (confirmed by Jan in meeting)
+- Python handles all formats

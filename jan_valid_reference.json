@@ -1,0 +1,115 @@
+{
+    "bundle": {
+        "ex:bundleA": {
+            "prefix": {
+                "xsd": "http://www.w3.org/2001/XMLSchema#",
+                "default": "https://www.default.com/",
+                "ex": "https://www.example.com/",
+                "prov": "http://www.w3.org/ns/prov#"
+            },
+            "entity": {
+                "entity1": {
+                    "prov:value": [
+                        {
+                            "$": "42",
+                            "type": "xsd:int"
+                        }
+                    ],
+                    "prov:label": [
+                        {
+                            "$": "Entity Label",
+                            "lang": "en"
+                        }
+                    ],
+                    "prov:location": [
+                        "Entity Location"
+                    ],
+                    "prov:type": [
+                        "Document"
+                    ],
+                    "ex:version": [
+                        {
+                            "$": "2",
+                            "type": "xsd:int"
+                        }
+                    ],
+                    "ex:byteSize": [
+                        {
+                            "$": "1034",
+                            "type": "xsd:positiveInteger"
+                        }
+                    ],
+                    "ex:compression": [
+                        {
+                            "$": "0.825",
+                            "type": "xsd:double"
+                        }
+                    ],
+                    "ex:content": [
+                        {
+                            "$": "Y29udGVudCBoZXJl",
+                            "type": "xsd:base64Binary"
+                        }
+                    ]
+                }
+            },
+            "activity": {
+                "ex:activity1": {
+                    "prov:startTime": "2025-08-16T12:00:00.000+02:00",
+                    "prov:endTime": "2025-08-16T13:00:00.000+02:00",
+                    "prov:type": [
+                        {
+                            "$": "ex:edit",
+                            "type": "xsd:QName"
+                        }
+                    ],
+                    "ex:host": [
+                        "server.example.org"
+                    ]
+                }
+            },
+            "agent": {
+                "ex:agent1": {
+                    "ex:employee": [
+                        {
+                            "$": "1234",
+                            "type": "xsd:int"
+                        }
+                    ],
+                    "ex:name": [
+                        "Alice"
+                    ],
+                    "prov:type": [
+                        {
+                            "$": "prov:Person",
+                            "type": "xsd:QName"
+                        }
+                    ]
+                }
+            },
+            "wasAssociatedWith": {
+                "_:n1": {
+                    "prov:activity": "ex:activity1",
+                    "prov:agent": "ex:agent1",
+                    "prov:role": [
+                        "editor"
+                    ],
+                    "prov:plan": "ex:rec-advance"
+                }
+            },
+            "wasAttributedTo": {
+                "_:n0": {
+                    "prov:entity": "entity1",
+                    "prov:agent": "ex:agent1"
+                }
+            },
+            "wasGeneratedBy": {
+                "_:n2": {
+                    "prov:entity": "entity1",
+                    "prov:activity": "ex:activity1",
+                    "prov:time": "2025-08-16T13:00:00.000+02:00"
+                }
+            }
+        }
+    }
+}

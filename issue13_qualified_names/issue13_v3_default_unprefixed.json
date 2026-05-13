@@ -1,0 +1,1 @@
+{"bundle":{"ex:bundleA":{"prefix":{"default":"https://www.example.com/","ex":"https://www.example.com/","prov":"http://www.w3.org/ns/prov#","xsd":"http://www.w3.org/2001/XMLSchema#"},"entity":{"bareEntity":{"ex:name":["Unprefixed, uses default"]}},"wasGeneratedBy":{"_:g1":{"prov:entity":"bareEntity","prov:activity":"ex:a1"}}}}}

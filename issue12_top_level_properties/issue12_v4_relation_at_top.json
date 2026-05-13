@@ -1,0 +1,1 @@
+{"prefix":{"ex":"https://www.example.com/","prov":"http://www.w3.org/ns/prov#"},"wasGeneratedBy":{"_:g1":{"prov:entity":"ex:e1","prov:activity":"ex:a1"}},"bundle":{"ex:bundleA":{"entity":{"ex:e1":{"ex:name":["Inside bundle"]}}}}}

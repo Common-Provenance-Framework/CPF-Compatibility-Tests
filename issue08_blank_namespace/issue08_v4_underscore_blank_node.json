@@ -1,0 +1,1 @@
+{"bundle":{"ex:bundleA":{"prefix":{"ex":"https://www.example.com/","prov":"http://www.w3.org/ns/prov#","xsd":"http://www.w3.org/2001/XMLSchema#"},"entity":{"_:anon1":{"prov:type":[{"$":"prov:Entity","type":"prov:QualifiedName"}],"ex:name":["Underscore blank node"]}},"wasGeneratedBy":{"_:g1":{"prov:entity":"_:anon1","prov:activity":"ex:a1"}}}}}

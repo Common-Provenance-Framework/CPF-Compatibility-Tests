@@ -1,0 +1,40 @@
+ISSUES #10/#11: Timezone + Timestamp Precision
+Date: 2026-05-04
+
+===========================================================================
+COMPLETE CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                    | W3C    | Java   | Java   | Python | Python Round-trip
+   |                                | Schema | Schema | API    | Deser  |
+---|--------------------------------|--------|--------|--------|--------|-----------------------------
+V1 | +02:00, milliseconds          | PASS   | PASS   | FAIL*  | PASS   | 2024-06-15T09:00:00+02:00 (preserved, ms stripped)
+V2 | UTC (Z), milliseconds         | PASS   | PASS   | FAIL*  | PASS   | 2024-06-15T07:00:00+00:00 (Z→+00:00, ms stripped)
+V3 | +02:00, no milliseconds       | PASS   | PASS   | FAIL*  | PASS   | 2024-06-15T09:00:00+02:00 (preserved)
+V4 | +02:00, microseconds          | PASS   | PASS   | FAIL*  | PASS   | 2024-06-15T09:00:00.123456+02:00 (microseconds preserved!)
+
+* Java API blocked by Issue #1
+
+===========================================================================
+FINDINGS
+===========================================================================
+
+1. PYTHON ROUND-TRIP:
+   - Timezone: PRESERVED (does not convert to UTC)
+   - Milliseconds (.000): STRIPPED (removed if all zeros)
+   - Microseconds (.123456): PRESERVED
+   - Z notation: converted to +00:00 (equivalent, just different format)
+
+2. JAVA (from prior observation, not retested):
+   - Timezone: CONVERTS to UTC/system timezone
+   - This means same moment in time, different representation
+   - Cannot re-verify until Issue #1 is resolved
+
+3. BOTH BEHAVIORS ARE SPEC-VALID:
+   - xsd:dateTime allows any valid timezone representation
+   - Converting to UTC and preserving original are both valid
+   - Only matters for exact string comparison (data is equivalent)
+
+4. SEVERITY: LOW
+   - No data loss (same moment in time)
+   - Only affects string-level comparison of outputs

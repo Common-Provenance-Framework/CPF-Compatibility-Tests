@@ -1,0 +1,1 @@
+{"bundle":{"ex:bundleA":{"prefix":{"ex":"https://www.example.com/","prov":"http://www.w3.org/ns/prov#","xsd":"http://www.w3.org/2001/XMLSchema#"},"entity":{"ex:e1":{"ex:name":["Test"]}},"activity":{"ex:a1":{"prov:startTime":"2024-06-15T07:00:00.000Z","prov:endTime":"2024-06-15T08:30:00.000Z"}},"wasGeneratedBy":{"_:g1":{"prov:entity":"ex:e1","prov:activity":"ex:a1"}}}}}

@@ -1,0 +1,28 @@
+ISSUE #13: Qualified Names
+Date: 2026-05-04
+
+Jan's meeting comment: No specific comment. Was not well understood in meeting.
+
+===========================================================================
+CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                    | W3C    | Java   | Java   | Python | Round-trip ID
+   |                                | Schema | Schema | API    | Deser  |
+---|--------------------------------|--------|--------|--------|--------|------------------
+V1 | Full URI as identifier         | PASS   | PASS   | FAIL*  | PASS   | ex:fullUriEntity (shortened!)
+V2 | Prefixed short form            | PASS   | PASS   | FAIL*  | PASS   | ex:prefixedEntity (preserved)
+V3 | Unprefixed, uses default       | PASS   | PASS   | FAIL*  | PASS   | bareEntity (preserved)
+
+* Java API blocked by Issue #1
+
+FINDINGS:
+1. All three forms are accepted by all schemas and Python
+2. Python round-trip SHORTENS full URIs: "https://www.example.com/fullUriEntity"
+   becomes "ex:fullUriEntity" in output (resolved via prefix)
+3. Unprefixed names (V3) are preserved as-is by Python
+4. All three are semantically equivalent -- they resolve to the same URI
+
+SEVERITY: LOW -- no real incompatibility found. All systems agree.
+The concern from the meeting (qualified names must be URI) is not confirmed.
+Both schemas accept prefixed short forms and unprefixed names.

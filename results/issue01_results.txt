@@ -1,0 +1,100 @@
+ISSUE #1: Prefix Placement -- COMPREHENSIVE TEST RESULTS
+Date: 2026-05-04
+Java CPF-Store: latest main (commit 7d058ac), Docker
+Python: ProvPython (prov library)
+Schemas: W3C original (prov-json-schama-original.json), Java CPF-Store (prov-json-schema.json)
+
+===========================================================================
+COMPLETE CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                              | W3C    | Java   | Java   | Python | Python Round-trip
+   |                                          | Schema | Schema | API    | Deser  | prefix output
+---|------------------------------------------|--------|--------|--------|--------|------------------
+V1 | All prefix at TOP LEVEL only             | PASS   | FAIL   | FAIL   | PASS   | ex, (bundle)ex
+V2 | All prefix INSIDE BUNDLE only            | PASS   | PASS   | FAIL*  | PASS   | (bundle)ex
+V3 | Prefix in BOTH places                    | PASS   | FAIL   | FAIL   | PASS   | ex, (bundle)ex
+V4 | Only bundle-id prefix inside, rest top   | PASS   | FAIL   | FAIL   | PASS   | (bundle)ex
+V5 | No prefix anywhere                       | PASS   | PASS   | FAIL*  | FAIL   | n/a
+V6 | Jan's schema test format                 | PASS   | PASS   | FAIL*  | PASS   | (bundle)ex, (bundle)default
+V7 | Jan's deserializer test format            | PASS   | FAIL   | FAIL   | PASS   | ex, default, (bundle)ex, (bundle)default
+V8 | Jan's preprocessed format (both + @id)   | PASS   | FAIL   | FAIL   | FAIL   | @id causes Python error
+
+* FAIL with "Unhandled/Internal Server Error" = passed schema validation but
+  ProvToolbox deserialization failed (namespace null)
+
+===========================================================================
+ANALYSIS
+===========================================================================
+
+JAVA SCHEMA passes: V2, V5, V6 (prefix inside bundle or no prefix)
+JAVA SCHEMA fails:  V1, V3, V4, V7, V8 (anything with prefix at top level or @id)
+JAVA API passes:    NONE (ProvToolbox always fails on deserialization)
+
+PYTHON passes:      V1, V2, V3, V4, V6, V7 (everything except no-prefix and @id)
+PYTHON fails:       V5 (no prefix = can't resolve names), V8 (@id not expected)
+
+W3C SCHEMA passes:  ALL 8 variants (most permissive)
+
+===========================================================================
+KEY FINDINGS
+===========================================================================
+
+1. NO VARIANT WORKS END-TO-END THROUGH JAVA API
+   - V2 and V6 pass schema validation but fail at ProvToolbox deserialization
+   - The preprocessing (main flow) only adds @id, does NOT copy prefix to document root
+   - ProvToolbox needs prefix at document root to resolve namespaces
+
+2. JAN'S TWO TEST FORMATS ARE INCOMPATIBLE WITH EACH OTHER
+   - V6 (schema test): prefix inside bundle → passes schema, fails ProvToolbox
+   - V7 (deserializer test): prefix at top level → fails schema, passes ProvToolbox
+   - These tests pass individually but the formats are mutually exclusive in the API
+
+3. PYTHON ROUND-TRIP BEHAVIOR
+   - Python always copies prefix into the bundle on output (even if input had it only at top)
+   - Python strips prov/xsd from output (treats as implicit)
+   - Python rejects @id inside bundles (V8 fails)
+
+4. THE "BOTH PLACES" FORMAT (V3) would work for Python + ProvToolbox deserialization,
+   but fails Java schema validation (schema rejects top-level prefix)
+
+5. Jan's meeting comment "only bundle identifier prefix needs to be inside":
+   - V4 tests this exactly (only "ex" inside, prov/xsd at top level)
+   - Java schema REJECTS V4 (because prov/xsd at top level are not allowed)
+   - So this only works if schema is modified to allow non-bundle prefixes at top level
+
+===========================================================================
+WHAT WOULD NEED TO CHANGE FOR EACH APPROACH
+===========================================================================
+
+APPROACH A: Accept prefix at top level (match spec/Python)
+  → Change Java schema: allow "prefix" at top level
+  → No changes needed to preprocessing
+  → V1 and V7 format would work
+  → Python output would be directly readable
+
+APPROACH B: Keep prefix inside bundle only (current Java schema)
+  → Fix preprocessing: copy prefix from inside bundle to document root before ProvToolbox
+  → V2 and V6 format would work
+  → Python output still needs transformation (Python puts prefix at top level)
+
+APPROACH C: Accept both (most flexible)
+  → Change Java schema: allow optional "prefix" at top level
+  → Fix preprocessing: if prefix only inside bundle, copy to document root
+  → V1, V2, V3, V4, V6, V7 would all work
+
+===========================================================================
+RELATED CODE FILES
+===========================================================================
+
+Schema: src/main/resources/prov-json-schema.json
+Preprocessing: src/main/java/.../common/utils/ProvJsonUtils.java
+  - preprocessJsonForDeserialization (line 67): main flow, adds @id only
+  - preprocessIncompatibleJsonForDeserialization (line 86): legacy flow, 5 steps including prefix copy
+  - copyOuterPrefixesIntoBundles (line 187): copies top→bundle (REVERSE of what's needed)
+Namespace: ProvenanceFactory.java line 37: addKnownNamespaces() (not used in deser path)
+
+Jan's tests:
+  - IsProvBase64JsonValidatorTest.java: json_valid (V6 format - inside bundle)
+  - ProvDocumentUtilsDeserializerTest.java: DOCUMENT_JSON (V7 format - top level)
+  - ProvJsonUtilsTest.java: DOCUMENT + 7 variants (top level format, preprocessing tests)

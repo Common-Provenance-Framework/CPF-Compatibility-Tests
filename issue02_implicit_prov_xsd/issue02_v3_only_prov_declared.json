@@ -1,0 +1,19 @@
+{
+  "bundle": {
+    "ex:TestBundle_i02v3": {
+      "prefix": {
+        "ex": "https://www.example.com/",
+        "prov": "http://www.w3.org/ns/prov#"
+      },
+      "entity": {
+        "ex:sample3": {
+          "prov:type": [{"$": "prov:Entity", "type": "prov:QualifiedName"}],
+          "ex:size": [{"$": "42", "type": "xsd:int"}]
+        }
+      },
+      "wasGeneratedBy": {
+        "_:g1": {"prov:entity": "ex:sample3", "prov:activity": "ex:act3"}
+      }
+    }
+  }
+}

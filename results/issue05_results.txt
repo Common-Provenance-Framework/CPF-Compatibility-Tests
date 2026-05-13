@@ -1,0 +1,51 @@
+ISSUES #5/6/7: Values in Arrays + Numeric Strings
+Date: 2026-05-04
+
+Jan's meeting comment on #7: "Is not even a recommendation, MAY is just an option,
+so it's fine. It's more a question of compatibility with Python."
+
+===========================================================================
+COMPLETE CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                              | W3C    | Java   | Java   | Python | Python Round-trip
+   |                                          | Schema | Schema | API    | Deser  |
+---|------------------------------------------|--------|--------|--------|--------|------------------
+V1 | All in arrays, strings (Java format)     | PASS   | PASS   | FAIL*  | PASS   | Strips arrays from single values
+V2 | Bare string (not in array)               | PASS   | FAIL   | FAIL   | PASS   | Outputs bare
+V3 | Bare typed value (not in array)          | PASS   | FAIL   | FAIL   | PASS   | Outputs bare
+V4 | All bare (Python-like output)            | PASS   | FAIL   | FAIL   | PASS   | Outputs bare
+V5 | Native numbers in arrays                 | PASS   | FAIL   | FAIL   | PASS   | Outputs native numbers
+
+* V1 Java API fails due to Issue #1 (namespace), not array issue
+
+===========================================================================
+FINDINGS
+===========================================================================
+
+1. JAVA SCHEMA ENFORCES ARRAYS + STRINGS:
+   - V1 (all arrays, strings) is the ONLY format Java schema accepts
+   - V2-V4 (bare values): schema rejects with "string/object found, array expected"
+   - V5 (native numbers): schema rejects with "integer found, string expected"
+
+2. PYTHON ACCEPTS EVERYTHING, OUTPUTS BARE:
+   - Deserializes all 5 variants successfully
+   - On round-trip: ALWAYS strips arrays from single values
+   - On round-trip: outputs native numbers, not strings
+   - This means Python output is V4 format -- which Java schema rejects
+
+3. W3C SCHEMA ACCEPTS EVERYTHING:
+   - All 5 variants are valid per the original PROV-JSON spec
+   - The spec says arrays for multiple values, MAY use native types
+   - Both bare and array single values are valid
+
+4. THE CORE JAVA-PYTHON INCOMPATIBILITY:
+   - Java requires: ["Alice"] and [{"$":"2","type":"xsd:int"}]
+   - Python outputs: "Alice" and {"$":"2","type":"xsd:int"}
+   - Same data, different wrapping. Java can't read Python output.
+
+5. #7 RECLASSIFIED (per Jan's meeting comment):
+   - Native numbers (V5) are valid per spec ("MAY" = option)
+   - Java requiring strings is also valid per spec
+   - Both are spec-compliant, just different choices
+   - Only matters for Java-Python compatibility

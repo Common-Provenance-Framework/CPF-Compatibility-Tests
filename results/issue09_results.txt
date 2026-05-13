@@ -1,0 +1,54 @@
+ISSUE #9: prov:type Format
+Date: 2026-05-04
+
+Jan's meeting comment: "Flag this. Different in PROV-N notation.
+Essential problem between Java and Python."
+
+===========================================================================
+COMPLETE CROSS-SYSTEM TEST MATRIX
+===========================================================================
+
+#  | Description                              | W3C    | Java   | Java   | Python | Python Round-trip output
+   |                                          | Schema | Schema | API    | Deser  |
+---|------------------------------------------|--------|--------|--------|--------|-------------------------
+V1 | Correct typed: [{"$":"val","type":"QN"}] | PASS   | PASS   | FAIL*  | PASS   | {"$":"val","type":"QN"} (bare, array stripped)
+V2 | Python-like: ["val","QUALIFIED_NAME"]    | PASS   | PASS   | FAIL*  | PASS   | ["val","QUALIFIED_NAME"] (preserved as-is)
+V3 | Single string: ["prov:Entity"]           | PASS   | PASS   | FAIL*  | PASS   | "prov:Entity" (bare, array stripped)
+V4 | Multiple typed values in array           | PASS   | PASS   | FAIL*  | PASS   | [{"$":"val1","type":"QN"},{"$":"val2",...}] (preserved)
+V5 | Bare typed, not in array                 | PASS   | FAIL   | FAIL   | PASS   | {"$":"val","type":"QN"} (stays bare)
+
+* Java API V1-V4 fail due to Issue #1 (namespace), not prov:type format
+
+===========================================================================
+FINDINGS
+===========================================================================
+
+1. SCHEMAS:
+   - W3C: accepts ALL formats (permissive)
+   - Java: accepts V1-V4 (values in arrays). Rejects V5 (bare typed not in array).
+   - Key: Java schema ACCEPTS V2 (the "wrong" Python-like format ["val","QN"]).
+     The schema sees it as an array of strings, which is valid.
+     The issue only surfaces during ProvToolbox deserialization.
+
+2. PYTHON BEHAVIOR:
+   - Deserializes ALL 5 variants successfully
+   - V1: round-trip STRIPS the array (single value → bare)
+   - V2: round-trip PRESERVES the wrong format (two bare strings)
+   - V3: round-trip STRIPS the array
+   - V4: round-trip PRESERVES the array (multiple values)
+   - V5: round-trip keeps bare
+
+3. THE ACTUAL PROBLEM:
+   Spec format:  [{"$": "cpm:forwardConnector", "type": "prov:QualifiedName"}]
+   Python output: ["cpm:forwardConnector", "prov:QUALIFIED_NAME"]
+
+   Python treats prov:type value and its type declaration as TWO SEPARATE STRINGS
+   instead of ONE TYPED OBJECT. This is fundamentally different data.
+
+   When Java ProvToolbox reads the Python format, it sees two string attributes
+   instead of one typed qualified name → the connector type is lost.
+
+4. V2 IS THE CRITICAL VARIANT:
+   It passes both schemas but represents different data.
+   Java schema can't catch this because both formats are syntactically valid arrays.
+   The difference is SEMANTIC, not SYNTACTIC.

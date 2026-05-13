@@ -1,0 +1,79 @@
+ISSUE #2: Implicit prov/xsd Prefixes
+Date: 2026-05-04
+
+Jan's meeting comment: "Not necessary in Java either. There's some function call
+of known prefixes. Can we deserialise without prov and xsd? If you call the method
+before, then we can inject prefixes."
+
+Method found: namespace.addKnownNamespaces() in ProvenanceFactory.java (lines 37, 52)
+Currently only used in meta component factory, NOT in document deserialization path.
+
+===========================================================================
+TEST SUMMARY TABLE
+===========================================================================
+
+Variant                      | W3C Schema | Java Schema | Java API    | Python Deser | Python Round-Trip
+-----------------------------|------------|-------------|-------------|--------------|------------------
+V1: prov+xsd explicit       | PASS       | PASS        | FAIL (*)    | PASS         | Strips prov/xsd from output
+V2: neither declared, used   | PASS       | PASS        | FAIL (*)    | PASS         | Strips prov/xsd from output
+V3: only prov declared       | PASS       | PASS        | FAIL (*)    | PASS         | Strips prov/xsd from output
+V4: only xsd declared        | PASS       | PASS        | FAIL (*)    | PASS         | Strips prov/xsd from output
+V5: neither declared/used    | PASS       | PASS        | FAIL (*)    | PASS         | No prov/xsd in output
+
+(*) Java API failures are ALL caused by Issue #1 (prefix not at document root),
+    NOT by the prov/xsd implicit issue. Issue #2 cannot be tested in isolation
+    against Java ProvToolbox until Issue #1 is resolved.
+
+PYTHON ROUND-TRIP DETAIL:
+All 5 variants: Python ALWAYS strips prov and xsd from the output.
+Even V1 (where both were explicitly declared in the input) comes out without them.
+Python treats prov and xsd as implicit -- never writes them to output.
+
+This means: any document round-tripped through Python will lose explicit prov/xsd
+declarations. If Java ProvToolbox needs them explicitly, Python output will be
+incompatible on this point.
+
+===========================================================================
+FINDINGS
+===========================================================================
+
+1. SCHEMAS: Both W3C original and Java CPF-Store schemas accept all 5 variants.
+   Neither schema requires prov/xsd to be declared. This is correct per spec.
+
+2. PYTHON (ProvPython):
+   - Deserializes ALL 5 variants successfully, regardless of whether prov/xsd
+     are declared or not. Treats them as implicit.
+   - On ROUND-TRIP (deserialize then serialize): Python ALWAYS STRIPS prov and xsd
+     from the output prefix, even when they were explicitly declared in the input.
+   - This means: if Python serializes a document and Java tries to read it,
+     prov and xsd will be missing from the prefix section.
+
+3. JAVA (ProvToolbox):
+   - Cannot be tested in isolation for Issue #2 because all tests fail on
+     Issue #1 (namespace resolution at document root).
+   - However, from the Issue #1 error logs, we can see that ProvToolbox
+     internally has {xsd=..., prov=...} in its namespace map even when
+     they're not declared. This suggests ProvToolbox DOES handle them implicitly.
+   - The addKnownNamespaces() method confirms this capability exists.
+
+===========================================================================
+CROSS-IMPLEMENTATION IMPACT
+===========================================================================
+
+The Python round-trip behavior creates a Java-Python compatibility issue:
+  Input:  has prov/xsd in prefix
+  Python deserialize + serialize: strips prov/xsd from prefix
+  Java tries to read Python output: prov/xsd missing from prefix section
+
+If Java ProvToolbox handles prov/xsd implicitly (via addKnownNamespaces()),
+this is not a problem. But this needs verification once Issue #1 is resolved.
+
+===========================================================================
+TODO
+===========================================================================
+
+1. Resolve Issue #1 first (prefix at document root vs inside bundle)
+2. Then re-test Issue #2 variants against Java ProvToolbox
+3. Test: call addKnownNamespaces() before deserialization, then try V2
+4. Test: what does Java ProvToolbox output after serialization -- does it
+   include prov/xsd in the prefix even if they weren't in the input?
