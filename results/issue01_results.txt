@@ -98,3 +98,37 @@ Jan's tests:
   - IsProvBase64JsonValidatorTest.java: json_valid (V6 format - inside bundle)
   - ProvDocumentUtilsDeserializerTest.java: DOCUMENT_JSON (V7 format - top level)
   - ProvJsonUtilsTest.java: DOCUMENT + 7 variants (top level format, preprocessing tests)
+
+===========================================================================
+ADDITIONAL TESTING (2026-06-18)
+===========================================================================
+
+TESTING JAN'S SUGGESTION: "Only bundle ID prefix inside, rest at top level"
+
+Format tested:
+  {
+    "prefix": { "prov": "...", "xsd": "...", "cpm": "...", "blank": "..." },
+    "bundle": {
+      "storage:TestBundle": {
+        "prefix": { "storage": "http://localhost:8081/api/v1/documents/" },
+        ...
+      }
+    }
+  }
+
+Results:
+  - Java Schema: FAIL (rejects top-level prefix, additionalProperties: false)
+  - ProvPython: PASS
+  - ProvToolbox: UNTESTED (needs Docker or Jan to verify)
+
+Also tested: ALL prefixes inside bundle (no top-level prefix)
+  - Java Schema: PASS
+  - ProvPython: PASS
+  - ProvToolbox: UNTESTED (previously failed with ns=null, but addKnownNamespaces() not yet tested)
+
+CONCLUSION:
+  Jan's suggestion doesn't pass his own schema. Either:
+    1. Schema needs updating to allow prefix at top level, OR
+    2. addKnownNamespaces() needs to be called before deserialization
+       to make the all-inside-bundle format work with ProvToolbox
+  Python handles both formats fine. Java side needs Jan to verify.
