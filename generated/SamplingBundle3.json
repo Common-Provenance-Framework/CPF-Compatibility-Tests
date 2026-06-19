@@ -1,0 +1,179 @@
+{
+  "prefix" : {
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "cpm" : "https://www.commonprovenancemodel.org/cpm-namespace-v1-0/",
+    "storage" : "http://prov-storage-hospital:8000/api/v1/organizations/TestHospital/documents/",
+    "dct" : "http://purl.org/dc/terms/",
+    "prov" : "http://www.w3.org/ns/prov#",
+    "meta" : "http://prov-storage-hospital:8000/api/v1/documents/meta/"
+  },
+  "bundle" : {
+    "storage:SamplingBundle3-v1781865270239" : {
+      "entity" : {
+        "cpm:SamplingBundle1-connector" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:backwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SamplingBundle1_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "7d07c3e12af199a3936bd121475ffb0f8df59e17848be22c40038103673a650d"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:SamplingBundle1"
+          } ]
+        },
+        "cpm:SamplingBundle0-connector-0" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:backwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SamplingBundle0_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "e73db4566927ee2ede5e0a8109748a213e4bab3abedf353a6fa45a86f251bc96"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:SamplingBundle0"
+          } ]
+        },
+        "cpm:SamplingBundle3-connector" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:SamplingBundle2-connector" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:backwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SamplingBundle2_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "fc91c4a4f8d47cf5b42a489145871118d54dfea47d25cdb85734475156c0ad80"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:SamplingBundle2"
+          } ]
+        },
+        "cpm:SamplingBundle0-connector-1" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:backwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SamplingBundle0_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "e73db4566927ee2ede5e0a8109748a213e4bab3abedf353a6fa45a86f251bc96"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:SamplingBundle0"
+          } ]
+        }
+      },
+      "activity" : {
+        "cpm:activity-SamplingBundle3" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:mainActivity"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SamplingBundle3_meta"
+          } ]
+        }
+      },
+      "agent" : {
+        "storage:SenderAgent-SamplingBundle2" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:senderAgent"
+          } ]
+        },
+        "storage:SenderAgent-SamplingBundle1" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:senderAgent"
+          } ]
+        },
+        "storage:SenderAgent-SamplingBundle0" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:senderAgent"
+          } ]
+        }
+      },
+      "used" : {
+        "_:n168" : {
+          "prov:activity" : "cpm:activity-SamplingBundle3",
+          "prov:entity" : "cpm:SamplingBundle2-connector"
+        }
+      },
+      "wasAttributedTo" : {
+        "_:n172" : {
+          "prov:entity" : "cpm:SamplingBundle0-connector-0",
+          "prov:agent" : "storage:SenderAgent-SamplingBundle0"
+        },
+        "_:n171" : {
+          "prov:entity" : "cpm:SamplingBundle2-connector",
+          "prov:agent" : "storage:SenderAgent-SamplingBundle2"
+        },
+        "_:n176" : {
+          "prov:entity" : "cpm:SamplingBundle1-connector",
+          "prov:agent" : "storage:SenderAgent-SamplingBundle1"
+        },
+        "_:n173" : {
+          "prov:entity" : "cpm:SamplingBundle0-connector-1",
+          "prov:agent" : "storage:SenderAgent-SamplingBundle0"
+        }
+      },
+      "wasDerivedFrom" : {
+        "_:n175" : {
+          "prov:generatedEntity" : "cpm:SamplingBundle1-connector",
+          "prov:usedEntity" : "cpm:SamplingBundle0-connector-1"
+        },
+        "_:n174" : {
+          "prov:generatedEntity" : "cpm:SamplingBundle1-connector",
+          "prov:usedEntity" : "cpm:SamplingBundle0-connector-0"
+        },
+        "_:n177" : {
+          "prov:generatedEntity" : "cpm:SamplingBundle3-connector",
+          "prov:usedEntity" : "cpm:SamplingBundle2-connector"
+        },
+        "_:n170" : {
+          "prov:generatedEntity" : "cpm:SamplingBundle2-connector",
+          "prov:usedEntity" : "cpm:SamplingBundle1-connector"
+        }
+      },
+      "wasGeneratedBy" : {
+        "_:n169" : {
+          "prov:entity" : "cpm:SamplingBundle3-connector",
+          "prov:activity" : "cpm:activity-SamplingBundle3"
+        }
+      },
+      "@id" : "storage:SamplingBundle3-v1781865270239"
+    }
+  }
+}
