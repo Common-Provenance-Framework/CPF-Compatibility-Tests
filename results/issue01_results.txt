@@ -132,3 +132,32 @@ CONCLUSION:
     2. addKnownNamespaces() needs to be called before deserialization
        to make the all-inside-bundle format work with ProvToolbox
   Python handles both formats fine. Java side needs Jan to verify.
+
+===========================================================================
+MAJOR UPDATE (2026-06-19) -- JAN FIXED IT
+===========================================================================
+
+Tested against Jan's LATEST code (pulled 2026-06-19). Key changes:
+1. API endpoint changed: POST /api/v1/organizations/{org}/documents
+2. Bundle namespace now expects: {STORE_URL}organizations/{org}/documents/
+
+TEST WITH ALL PREFIXES INSIDE BUNDLE + CORRECT NAMESPACE:
+  - Schema validation: PASS
+  - ProvToolbox deserialization: PASS  <-- THIS WAS BROKEN BEFORE!
+  - Namespace check: PASS
+  - CPM validation: FAIL ("MainActivity in CpmDocument can not be null")
+    This is a CPM CONTENT issue (our test doc is too simple), NOT a format issue.
+
+CONCLUSION:
+  THE PREFIX PLACEMENT ISSUE (#1) IS RESOLVED IN JAN'S LATEST CODE.
+  Documents with all prefixes inside the bundle now work through
+  schema validation AND ProvToolbox deserialization.
+  
+  The remaining failures are about CPM content (main activity attributes,
+  meta bundle references) which is expected -- our test documents are
+  simplified and don't have full CPM structure.
+
+WHAT CHANGED IN JAN'S CODE:
+  - API URL structure changed (org in path again)
+  - ProvToolbox deserialization now works with prefix inside bundle
+  - Possibly addKnownNamespaces() or similar fix was added
