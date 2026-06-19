@@ -1,0 +1,274 @@
+{
+  "prefix" : {
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "cpm" : "https://www.commonprovenancemodel.org/cpm-namespace-v1-0/",
+    "storage" : "http://prov-storage-hospital:8000/api/v1/organizations/testorg/documents/",
+    "dct" : "http://purl.org/dc/terms/",
+    "prov" : "http://www.w3.org/ns/prov#",
+    "meta" : "http://prov-storage-hospital:8000/api/v1/documents/meta/"
+  },
+  "bundle" : {
+    "storage:BigChain0-v1781869643646" : {
+      "entity" : {
+        "cpm:BigChain5-connector" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:BigChain5-connector-spec" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:BigChain5_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "beb9150c85ae49a70f35ba5da79bf21177532dafb12704d4f3411d59fcb85e56"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:BigChain5"
+          } ]
+        },
+        "cpm:BigChain0-connector-1-spec" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:BigChain1_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "d4decf674617c7ff68d33827503f57c4612e1e53f4c1d08cac68e56b8e9428e6"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:BigChain1"
+          } ]
+        },
+        "cpm:BigChain4-connector-spec" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:BigChain4_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "36ec67fcac9144ded9a7d61c7198440a652d496279cfca2da07724f63c6bb12a"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:BigChain4"
+          } ]
+        },
+        "cpm:BigChain4-connector" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:BigChain2-connector-spec" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:BigChain2_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "f9143986800350724c7014b754e4f590af8500f9974d957594129772ff0dd76a"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:BigChain2"
+          } ]
+        },
+        "cpm:BigChain3-connector" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:BigChain3-connector-spec" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:BigChain3_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "06a45176eb30027796fdbfe53c82a7657ccf89a05b30af0cbb9aab901c2754d7"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:BigChain3"
+          } ]
+        },
+        "cpm:BigChain0-connector-0" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:BigChain0-connector-2-spec" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:BigChain1_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "d4decf674617c7ff68d33827503f57c4612e1e53f4c1d08cac68e56b8e9428e6"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:BigChain1"
+          } ]
+        },
+        "cpm:BigChain0-connector-2" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:BigChain0-connector-0-spec" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:BigChain1_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "d4decf674617c7ff68d33827503f57c4612e1e53f4c1d08cac68e56b8e9428e6"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:BigChain1"
+          } ]
+        },
+        "cpm:BigChain2-connector" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:BigChain0-connector-1" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        }
+      },
+      "activity" : {
+        "cpm:activity-BigChain0" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:mainActivity"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:BigChain0_meta"
+          } ]
+        }
+      },
+      "specializationOf" : {
+        "_:n339" : {
+          "prov:specificEntity" : "cpm:BigChain0-connector-0-spec",
+          "prov:generalEntity" : "cpm:BigChain0-connector-0"
+        },
+        "_:n340" : {
+          "prov:specificEntity" : "cpm:BigChain0-connector-2-spec",
+          "prov:generalEntity" : "cpm:BigChain0-connector-2"
+        },
+        "_:n346" : {
+          "prov:specificEntity" : "cpm:BigChain4-connector-spec",
+          "prov:generalEntity" : "cpm:BigChain4-connector"
+        },
+        "_:n342" : {
+          "prov:specificEntity" : "cpm:BigChain2-connector-spec",
+          "prov:generalEntity" : "cpm:BigChain2-connector"
+        },
+        "_:n348" : {
+          "prov:specificEntity" : "cpm:BigChain5-connector-spec",
+          "prov:generalEntity" : "cpm:BigChain5-connector"
+        },
+        "_:n344" : {
+          "prov:specificEntity" : "cpm:BigChain3-connector-spec",
+          "prov:generalEntity" : "cpm:BigChain3-connector"
+        },
+        "_:n341" : {
+          "prov:specificEntity" : "cpm:BigChain0-connector-1-spec",
+          "prov:generalEntity" : "cpm:BigChain0-connector-1"
+        }
+      },
+      "wasDerivedFrom" : {
+        "_:n347" : {
+          "prov:generatedEntity" : "cpm:BigChain4-connector",
+          "prov:usedEntity" : "cpm:BigChain3-connector"
+        },
+        "_:n351" : {
+          "prov:generatedEntity" : "cpm:BigChain2-connector",
+          "prov:usedEntity" : "cpm:BigChain0-connector-1"
+        },
+        "_:n343" : {
+          "prov:generatedEntity" : "cpm:BigChain2-connector",
+          "prov:usedEntity" : "cpm:BigChain0-connector-0"
+        },
+        "_:n349" : {
+          "prov:generatedEntity" : "cpm:BigChain5-connector",
+          "prov:usedEntity" : "cpm:BigChain4-connector"
+        },
+        "_:n350" : {
+          "prov:generatedEntity" : "cpm:BigChain2-connector",
+          "prov:usedEntity" : "cpm:BigChain0-connector-2"
+        },
+        "_:n345" : {
+          "prov:generatedEntity" : "cpm:BigChain3-connector",
+          "prov:usedEntity" : "cpm:BigChain2-connector"
+        }
+      },
+      "wasGeneratedBy" : {
+        "_:n336" : {
+          "prov:entity" : "cpm:BigChain0-connector-0",
+          "prov:activity" : "cpm:activity-BigChain0"
+        },
+        "_:n338" : {
+          "prov:entity" : "cpm:BigChain0-connector-2",
+          "prov:activity" : "cpm:activity-BigChain0"
+        },
+        "_:n337" : {
+          "prov:entity" : "cpm:BigChain0-connector-1",
+          "prov:activity" : "cpm:activity-BigChain0"
+        }
+      },
+      "@id" : "storage:BigChain0-v1781869643646"
+    }
+  }
+}

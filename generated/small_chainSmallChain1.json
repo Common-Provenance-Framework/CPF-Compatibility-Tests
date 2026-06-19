@@ -1,0 +1,86 @@
+{
+  "prefix" : {
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "cpm" : "https://www.commonprovenancemodel.org/cpm-namespace-v1-0/",
+    "storage" : "http://prov-storage-hospital:8000/api/v1/organizations/testorg/documents/",
+    "dct" : "http://purl.org/dc/terms/",
+    "prov" : "http://www.w3.org/ns/prov#",
+    "meta" : "http://prov-storage-hospital:8000/api/v1/documents/meta/"
+  },
+  "bundle" : {
+    "storage:SmallChain1-v1781869642783" : {
+      "entity" : {
+        "cpm:SmallChain1-connector" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:SmallChain0-connector" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:backwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SmallChain0_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "a6d2ba52e8eab6033894e2007f2380a86690fd1ed131a2607fdefaca59b0ef47"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:SmallChain0"
+          } ]
+        }
+      },
+      "activity" : {
+        "cpm:activity-SmallChain1" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:mainActivity"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SmallChain1_meta"
+          } ]
+        }
+      },
+      "agent" : {
+        "storage:SenderAgent-SmallChain0" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:senderAgent"
+          } ]
+        }
+      },
+      "used" : {
+        "_:n22" : {
+          "prov:activity" : "cpm:activity-SmallChain1",
+          "prov:entity" : "cpm:SmallChain0-connector"
+        }
+      },
+      "wasAttributedTo" : {
+        "_:n24" : {
+          "prov:entity" : "cpm:SmallChain0-connector",
+          "prov:agent" : "storage:SenderAgent-SmallChain0"
+        }
+      },
+      "wasDerivedFrom" : {
+        "_:n25" : {
+          "prov:generatedEntity" : "cpm:SmallChain1-connector",
+          "prov:usedEntity" : "cpm:SmallChain0-connector"
+        }
+      },
+      "wasGeneratedBy" : {
+        "_:n23" : {
+          "prov:entity" : "cpm:SmallChain1-connector",
+          "prov:activity" : "cpm:activity-SmallChain1"
+        }
+      },
+      "@id" : "storage:SmallChain1-v1781869642783"
+    }
+  }
+}

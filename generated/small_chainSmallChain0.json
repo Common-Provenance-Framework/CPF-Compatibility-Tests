@@ -1,0 +1,66 @@
+{
+  "prefix" : {
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "cpm" : "https://www.commonprovenancemodel.org/cpm-namespace-v1-0/",
+    "storage" : "http://prov-storage-hospital:8000/api/v1/organizations/testorg/documents/",
+    "dct" : "http://purl.org/dc/terms/",
+    "prov" : "http://www.w3.org/ns/prov#",
+    "meta" : "http://prov-storage-hospital:8000/api/v1/documents/meta/"
+  },
+  "bundle" : {
+    "storage:SmallChain0-v1781869642770" : {
+      "entity" : {
+        "cpm:SmallChain0-connector" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ]
+        },
+        "cpm:SmallChain0-connector-spec" : {
+          "cpm:hashAlg" : [ "SHA256" ],
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:forwardConnector"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SmallChain1_meta"
+          } ],
+          "cpm:referencedBundleHashValue" : [ {
+            "type" : "xsd:byte",
+            "$" : "38ddf63dcc9163e6a774db1438187e1cb7219d7af3e5588683aaea3a5c0a7328"
+          } ],
+          "cpm:referencedBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "storage:SmallChain1"
+          } ]
+        }
+      },
+      "activity" : {
+        "cpm:activity-SmallChain0" : {
+          "prov:type" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "cpm:mainActivity"
+          } ],
+          "cpm:referencedMetaBundleId" : [ {
+            "type" : "prov:QUALIFIED_NAME",
+            "$" : "meta:SmallChain0_meta"
+          } ]
+        }
+      },
+      "specializationOf" : {
+        "_:n17" : {
+          "prov:specificEntity" : "cpm:SmallChain0-connector-spec",
+          "prov:generalEntity" : "cpm:SmallChain0-connector"
+        }
+      },
+      "wasGeneratedBy" : {
+        "_:n16" : {
+          "prov:entity" : "cpm:SmallChain0-connector",
+          "prov:activity" : "cpm:activity-SmallChain0"
+        }
+      },
+      "@id" : "storage:SmallChain0-v1781869642770"
+    }
+  }
+}
